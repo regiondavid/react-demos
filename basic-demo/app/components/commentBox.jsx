@@ -1,8 +1,9 @@
 import React from 'react'
+import CommentForm from './commentForm.jsx'
 import CommentList from './commentList.jsx'
 
 class CommentBox extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       count: props.initialCount,
@@ -13,8 +14,33 @@ class CommentBox extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  componentWillMount() {
+    console.log(2)
+  }
+
+  componentWillRecieveProps(nextProps) {
+    if(this.props.url != nextProps.url) {
+      console.log("changed");
+    }
+  }
+
   handleClick() {
     alert(this.state.message);
+  }
+
+  handleCommentSubmit(comment) {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      type: 'post',
+      data: comment,
+      success: (data) => {
+        this.setState({data: data});
+      },
+      error: function(xhr) {
+        console.log('error')
+      }
+    })
   }
 
   loadCommentsFromServer() {
@@ -24,6 +50,7 @@ class CommentBox extends React.Component {
       cache: false,
       success: (data) => {
         this.setState({data: data});
+        this.props.url = "2333";
       },
       error: (xhr, status, err) => {
         console.error(xhr.responseText);
@@ -38,7 +65,7 @@ class CommentBox extends React.Component {
         message: prevState.message + props.name
       }
     })
-    this.timeID = setInterval(
+    this.timeID = setTimeout(
       () => {
         this.tick();
         // this.loadCommentsFromServer();
@@ -57,6 +84,11 @@ class CommentBox extends React.Component {
     })
   }
 
+  changeProps() {
+    console.log(666)
+    this.refs.commentForm.setTheState();
+  }
+
   render() {
     return (
       <div className="commentBox">
@@ -64,24 +96,14 @@ class CommentBox extends React.Component {
         <h1>{this.state.date.toLocaleString()}</h1>
         <h2>{this.state.message}</h2>
         <CommentList data={this.state.data} />
+        <button onClick={() => this.changeProps()}>test</button>
+        <CommentForm ref="commentForm" onCommentSubmit={() => this.handleCommentSubmit()} />
       </div>
     );
   }
 }
 CommentBox.defaultProps = {
-  name: 'region',
-  data: [
-    {
-      id: 1,
-      author: "Peter Hunt",
-      text: "This is one comment"
-    },
-    {
-      id: 2,
-      author: "Jordan",
-      text: "This is a comment again"
-    }
-  ]
+  name: 'region'
 }
 
 export default CommentBox;

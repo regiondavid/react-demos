@@ -14,7 +14,3 @@ function main(){
   ReactDOM.render(<CommentBox  url="/comments.json" />, document.getElementById('comment'));
 }
 main();
-
-// var component = require('./component.js');
-
-// document.body.appendChild(component());

@@ -1,0 +1,20 @@
+.search-result {
+  width: 600px;
+  margin: auto;
+}
+.result-item {
+  width: 400px;
+  border: 1px solid gray;
+  margin-bottom: 40px;
+}
+.result-item > .row-left >img {
+  width: 200px;
+}
+.result-item > .row-left {
+  float: left;
+}
+.result-item:after {
+  content: '';
+  display: table;
+  clear: both;
+}
