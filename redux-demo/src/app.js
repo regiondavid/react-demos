@@ -1,4 +1,7 @@
-// import * as reducers from './reducer'
+import React from 'react'
+import Footer from './Footer'
+import AddTodo from '../containers/AddTodo'
+import VisibleTodoList from '../containers/VisibleTodoList'
 import todoApp from './reducer'
 import {createStore} from 'redux'
 import {addTodo, toggleTodo, setVisibilityFilter, VISIBILITY} from './actions'
@@ -19,3 +22,11 @@ store.dispatch(setVisibilityFilter(VISIBILITY.SHOW_COMPLETE))
 store.dispatch(setVisibilityFilter(VISIBILITY.SHOW_ACTIVE))
 
 unSubscribe();
+
+const App = () => (
+  <div>
+    <AddTodo />
+    <VisibleTodoList />
+    <Footer />
+  </div>
+)
